@@ -7,21 +7,46 @@ var ldClient = LaunchDarkly.init(process.env.LD_SDK_KEY);
 
 ldClient.on("ready", ()=>{
   express()
-    .get('/', (req, res) => {
+    .get('/discount', (req, res) => {
       const country = req.query.country;
-      const name = req.query.name;
       const key = req.query.key;
       const user = {
-        name,
         key,
         country,
       };
-      ldClient.variation("enable-toggle-runner",user).then( (flag) => {
+      ldClient.variation("discount-flag",user).then( (flag) => {
         const data = {}
-        if(flag){
-          data.content = "new testing content!"
-        } else{
-          data.content = "original content"
+        console.log("flag value: "+flag)
+          if (flag==5){
+            data.content = "Congratulations! You have earned a 5% discount!"
+          }
+          else if (flag==10){
+            data.content = "You have earned a 10% discount, use it today!"
+          }
+          else if (flag==15){
+            data.content = "Here's a gift, a 15% discount!"
+          }
+          else{
+            data.content = "Sorry, no discount!"
+          }
+        res.send(data)
+      });
+    })
+    .get('/content', (req, res) => {
+      const country = req.query.country;
+      const key = req.query.key;
+      const user = {
+        key,
+        country,
+      };
+      ldClient.variation("content-flag",user).then( (flag) => {
+        const data = {}
+        console.log("flag value: "+flag)
+        if (flag){
+          data.content = "New message Content"
+        }
+        else {
+          data.content = "Old message Content"
         }
         res.send(data)
       });
