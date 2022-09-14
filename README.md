@@ -6,7 +6,7 @@ I have created an app that implements two feature flags.
 It returns content and implements a feature flag to be able to send different contents depending on the flag value with a percentage rollout. 
 This app also returns price discounts, by targeting users depending of specific rules set on another feature flag.
 
-The app is Deployed on Heroku, you can access it by this public API:
+The app is Deployed on Heroku, you can access it by this public API, with two endpoints, /Discount and  /content:
 https://frozen-earth-53956.herokuapp.com
 
 There are two query params used by both the targeting feature flags I have built:
@@ -38,6 +38,7 @@ When the flag is true for rule 3, country != (US, FR, ES), it will return
 {
   "content" = "Here's a gift, a 15% discount!"
 }
+
 When the flag is false, it will return
 
 {
